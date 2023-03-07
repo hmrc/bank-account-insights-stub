@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.bankaccountinsightsstub.config
+package uk.gov.hmrc.bankaccountinsightsstub.model
 
-import javax.inject.{Inject, Singleton}
-import play.api.Configuration
+import play.api.libs.json.{Format, Json}
 
-@Singleton
-class AppConfig @Inject()(config: Configuration) {
+case class BankAccountDetails(sortCode: String, accountNumber: String)
 
-  val appName: String = config.get[String]("appName")
+object BankAccountDetails {
+  object implicits {
+    implicit val bankAccountDetailsFormat: Format[BankAccountDetails] = Json.format[BankAccountDetails]
+  }
 }
