@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.bankaccountinsightsstub.controllers
 
-import akka.stream.Materializer
+import org.apache.pekko.stream.Materializer
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -32,9 +32,9 @@ class BankAccountRiskListsControllerSpec extends AnyWordSpec with Matchers with 
     .withBody(Json.toJson(BankAccountDetails("123456", "12345678")))
     .withHeaders(CONTENT_TYPE -> "application/json")
 
-  private val controller = new BankAccountRiskListsController(Helpers.stubControllerComponents())
+  private val controller  = new BankAccountRiskListsController(Helpers.stubControllerComponents())
 
-  private val injector = app.injector
+  private val injector           = app.injector
   implicit val mat: Materializer = injector.instanceOf[Materializer]
 
   "POST /reject/nino" should {

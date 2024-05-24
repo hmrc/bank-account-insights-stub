@@ -24,8 +24,7 @@ import uk.gov.hmrc.bankaccountinsightsstub.model.BankAccountDetails.implicits._
 import javax.inject.Inject
 import scala.concurrent.Future
 
-class BankAccountRiskListsController @Inject()(val controllerComponents: ControllerComponents)
-  extends BaseController {
+class BankAccountRiskListsController @Inject() (val controllerComponents: ControllerComponents) extends BaseController {
 
   private val watchList = Seq(
     "393358,13902323",
@@ -47,17 +46,21 @@ class BankAccountRiskListsController @Inject()(val controllerComponents: Control
     "771343,90345198",
     "737721,56244798",
     "788480,67783615",
-    "881692,50225300")
+    "881692,50225300"
+  )
 
   def isBankAccountOnRejectList: Action[JsValue] = Action.async(parse.json) { req =>
     val bankAccountOnRejectList = Json.fromJson[BankAccountDetails](req.body)
-    Future.successful(bankAccountOnRejectList.fold(
-      _ => BadRequest("""{"message": "malformed request payload}"""),
-      valid => if (watchList.contains(s"${valid.sortCode},${valid.accountNumber}")) {
-        Ok("""{"result": true}""")
-      }
-      else {
-        Ok("""{"result": false}""")
-      }))
+    Future.successful(
+      bankAccountOnRejectList.fold(
+        _ => BadRequest("""{"message": "malformed request payload}"""),
+        valid =>
+          if (watchList.contains(s"${valid.sortCode},${valid.accountNumber}")) {
+            Ok("""{"result": true}""")
+          } else {
+            Ok("""{"result": false}""")
+          }
+      )
+    )
   }
 }
