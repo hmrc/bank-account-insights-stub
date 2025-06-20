@@ -38,9 +38,34 @@ class BankAccountRiskListsControllerSpec extends AnyWordSpec with Matchers with 
   implicit val mat: Materializer = injector.instanceOf[Materializer]
 
   "POST /reject/nino" should {
-    "return 200" in {
-      val result = controller.isBankAccountOnRejectList()(fakeRequest)
-      status(result) shouldBe Status.OK
+    "return 400 for malformed request payload" in {
+      val malformedRequest = FakeRequest("POST", "/reject/nino")
+        .withBody(Json.parse("""{"invalidField": "value"}"""))
+        .withHeaders(CONTENT_TYPE -> "application/json")
+
+      val result           = controller.isBankAccountOnRejectList()(malformedRequest)
+      status(result)          shouldBe Status.BAD_REQUEST
+      contentAsString(result) shouldBe """{"message": "malformed request payload}"""
+    }
+
+    "return 200 with result true for bank account on reject list" in {
+      val validRequest = FakeRequest("POST", "/reject/nino")
+        .withBody(Json.toJson(BankAccountDetails("393358", "13902323")))
+        .withHeaders(CONTENT_TYPE -> "application/json")
+
+      val result       = controller.isBankAccountOnRejectList()(validRequest)
+      status(result)          shouldBe Status.OK
+      contentAsString(result) shouldBe """{"result": true}"""
+    }
+
+    "return 200 with result false for bank account not on reject list" in {
+      val validRequest = FakeRequest("POST", "/reject/nino")
+        .withBody(Json.toJson(BankAccountDetails("111111", "22222222")))
+        .withHeaders(CONTENT_TYPE -> "application/json")
+
+      val result       = controller.isBankAccountOnRejectList()(validRequest)
+      status(result)          shouldBe Status.OK
+      contentAsString(result) shouldBe """{"result": false}"""
     }
   }
 }
