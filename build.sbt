@@ -8,8 +8,7 @@ val appName = "bank-account-insights-stub"
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(
     play.sbt.PlayScala,
-    SbtDistributablesPlugin,
-    SbtAutoBuildPlugin
+    SbtDistributablesPlugin
   )
   .settings(
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,

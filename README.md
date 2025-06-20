@@ -1,7 +1,7 @@
 
 # bank-account-insights-stub
 
-This is a placeholder README.md for a new repository
+This project provides a stub for the Bank Account Insights API, allowing developers to simulate interactions with the API without needing access to a live environment. It is particularly useful for testing and development purposes.
 
 ### License
 
