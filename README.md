@@ -10,14 +10,14 @@ To test the stub locally, you can use the following command:
 
 ## Returns true for an account that is to be rejected
 ```bash
-curl -X POST http://localhost:9000/reject/bank-account \
+curl -X POST http://localhost:9000/check/insights \
   -H "Content-Type: application/json" \
   -d '{"sortCode": "393358", "accountNumber": "13902323"}'
 ```
 
 ## Returns false for an account that is NOT to be rejected
 ```bash
-curl -X POST http://localhost:9000/reject/bank-account \
+curl -X POST http://localhost:9000/check/insights \
   -H "Content-Type: application/json" \
   -d '{"sortCode": "393358", "accountNumber": "12345678"}'
 ```
