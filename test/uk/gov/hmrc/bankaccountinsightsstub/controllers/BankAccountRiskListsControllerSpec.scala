@@ -28,11 +28,8 @@ import uk.gov.hmrc.bankaccountinsightsstub.model.BankAccountDetails
 import uk.gov.hmrc.bankaccountinsightsstub.model.BankAccountDetails.implicits._
 
 class BankAccountRiskListsControllerSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
-  private val fakeRequest = FakeRequest("POST", "/reject/nino")
-    .withBody(Json.toJson(BankAccountDetails("123456", "12345678")))
-    .withHeaders(CONTENT_TYPE -> "application/json")
 
-  private val controller  = new BankAccountRiskListsController(Helpers.stubControllerComponents())
+  private val controller = new BankAccountRiskListsController(Helpers.stubControllerComponents())
 
   private val injector           = app.injector
   implicit val mat: Materializer = injector.instanceOf[Materializer]
